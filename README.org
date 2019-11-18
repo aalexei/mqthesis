@@ -1,0 +1,27 @@
+#+TITLE: Macquarie University thesis LaTeX class file.
+
+This is a LaTeX class file that can be used in the preparation of MRes and PhD
+theses at Macquarie University, Sydney.
+
+Within this directory you will find,
+
+  |--------------------------------------------------------------------------+----------------------|
+  | ~thesis.tex~                                                               | The main TeX file    |
+  | ~abstract.tex~, ~acknowledge.tex~, ~listofpublications.tex~, ~listofsymbols.tex~ | Frontmatter files    |
+  | ~chap_intro.tex~, ~chap_other.tex~, ~chap_conclusion.tex~, ~chap_appendix.tex~   | Sample chapter files |
+  | ~references.bib~                                                           | Sample BibTeX file   |
+  |--------------------------------------------------------------------------+----------------------|
+
+Edit and add to these as you see fit, don't forget to include extra files in
+~thesis.tex~.
+
+~mqthesis.cls~ is the main class file that defines the look, and ~mqthesis.bst~
+defines the style of the bibliography (generated using the makebst), edit these
+to tweak the look.
+
+mqthesis depends on a number of standard packages, look through ~mqthesis.cls~ to see
+what is used and any notes. Modify as you see fit.
+
+/Good luck. Don't Panic./
+
+Alexei Gilchrist
