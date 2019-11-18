@@ -6,10 +6,10 @@ theses at Macquarie University, Sydney.
 Within this directory you will find,
 
   |--------------------------------------------------------------------------+----------------------|
-  | ~thesis.tex~                                                               | The main TeX file    |
-  | ~abstract.tex~, ~acknowledge.tex~, ~listofpublications.tex~, ~listofsymbols.tex~ | Frontmatter files    |
-  | ~chap_intro.tex~, ~chap_other.tex~, ~chap_conclusion.tex~, ~chap_appendix.tex~   | Sample chapter files |
-  | ~references.bib~                                                           | Sample BibTeX file   |
+  | thesis.tex                                                               | The main /LaTeX/ file  |
+  | abstract.tex, acknowledge.tex, listofpublications.tex, listofsymbols.tex | Frontmatter files    |
+  | chap_intro.tex, chap_other.tex, chap_conclusion.tex, chap_appendix.tex   | Sample chapter files |
+  | references.bib                                                           | Sample BibTeX file   |
   |--------------------------------------------------------------------------+----------------------|
 
 Edit and add to these as you see fit, don't forget to include extra files in
