@@ -2,9 +2,10 @@
 #
 # LaTeX / PDFLaTeX Makefile
 # (c) Tom Bobach 2007
-# (c) Alexei Gilchrist 2008
+# (c) Alexei Gilchrist 2008-2025
 #
 # History:
+#   22-03-2025  (AG) Specialised to pdf.
 #   24-09-2008  (AG) Stripped away some of the more dangerous code
 #   17-07-2007  (TB) Added 2-levels of recursion for include checks
 #   09-05-2007  (TB) Initial Version
@@ -26,16 +27,13 @@
 #   in the "\bibliography{<file>}" entry.
 #
 # Usage:
-#   make info        prints some info about the setup, what is considered
+#   make info        Prints some info about the setup, what is considered
 #                    the main file, what is the bibliography, what are
 #                    the relevant images etc.
-#   make clean       removes typical intermediate files.
-#   make [pdf]       runs as stated in the beginning, assuming as target
+#   make clean       Removes typical intermediate files.
+#   make [pdf]       Runs as stated in the beginning, assuming as target
 #                    a pdf named after the main file.
-#   make ps          like above, targeting a postscript
-#   make dvi         like above, targeting a dvi
-#   make view        opens kdvi with errors piped to /dev/null
-#   make watch       checks every second for changes in *.tex, and *.bib
+#   make watch       Checks every second for changes in *.tex, and *.bib
 #
 #
 # TODO:
@@ -110,19 +108,19 @@ endif
 ##################################################################
 
 
-clear_valid=( [ ! -e .valid ] || $(RM) .valid )
+clear_valid=( [ ! -e .make_valid ] || $(RM) .make_valid )
 check_undef_citations=\
   ( egrep $(MSG_CIT_UNDEFINED) $(MAINFILE:.tex=.log) > /dev/null )
 
 # determine the changeset for citations
 define check_citationchange
 	(                                                \
-	  [ -e .citations ] || touch .citations ;        \
+	  [ -e .make_citations ] || touch .make_citations ;        \
 	  ( grep "\\citation" $(MAINFILE:.tex=.aux)      \
 		| sort                                   \
 		| uniq                                   \
-		| diff .citations -                      \
-		> .citediff                              \
+		| diff .make_citations -                      \
+		> .make_citediff                              \
 	  )                                              \
 	)
 endef
@@ -136,44 +134,44 @@ define make_citations
 		grep "\\citation" $(MAINFILE:.tex=.aux)     \
 		| sort                                      \
 		| uniq                                      \
-		> .citations                                \
+		> .make_citations                                \
 	    )                                               \
 	  )                                                 \
-	  || touch .citations                               \
+	  || touch .make_citations                               \
 	)
 endef
 
 # comparing the citations in $(MAINFILE:.tex=.aux)
-# against those in .citations.
+# against those in .make_citations.
 # if there are differences, .citediff is changed.
 define make_citediff
 	(                                                     \
-	  ( [ -e .citations ] || touch .citations ;           \
-	    [ -e .citediff  ] || touch .citediff ;            \
+	  ( [ -e .make_citations ] || touch .make_citations ;           \
+	    [ -e .make_citediff  ] || touch .make_citediff ;            \
 	    echo "[info] Checking for changed Citations..." ; \
 	    grep "\\citation" $(MAINFILE:.tex=.aux)           \
 		| sort                                        \
 		| uniq                                        \
-		| diff .citations -                           \
-	    > .citediff__                                     \
+		| diff .make_citations -                           \
+	    > .make_citediff__                                     \
 	  )                                                   \
-	  || mv .citediff__ .citediff                         \
+	  || mv .make_citediff__ .make_citediff                         \
 	)
 endef
 
 # compiles the document
-# the file .valid is created if the compilation went without
+# the file .make_valid is created if the compilation went without
 # errors
 define runtexonce
   ( 	                                                    \
     $(clear_valid);                                         \
     ( $(LATEX) $(MAINFILE) $(SILENT) &&                     \
-      touch .valid );                                       \
+      touch .make_valid );                                       \
     (                                                       \
       ( egrep $(MSG_REF_UNDEFINED) $(MAINFILE:.tex=.log)    \
-        > .undefref ) ;                                     \
+        > .make_undefref ) ;                                     \
       ( egrep $(MSG_CIT_UNDEFINED) $(MAINFILE:.tex=.log)    \
-        > .undefcit ) ;                                     \
+        > .make_undefcit ) ;                                     \
       true                                                  \
     )                                                       \
   )
@@ -199,29 +197,15 @@ endef
 
 pdf: $(MAINFILE:.tex=.pdf)
 
-ps: $(MAINFILE:.tex=.dvi)
 
-dvi: $(MAINFILE:.tex=.ps)
-
-
-
-$(MAINFILE:.tex=.pdf): .compilesource
+$(MAINFILE:.tex=.pdf): .make_compilesource
 	$(MUTE)echo "[info] Created PDF."
 
-# the dvi creation path invokes standard tex 
-$(MAINFILE:.tex=.dvi): .force
-	$(MUTE)$(MAKE) .compilesource \
-		LATEX="latex -shell-escape -interaction=nonstopmode" 
-
-%.ps: %.dvi
-	$(MUTE)echo "[info] Converting DVI to PS"
-	$(MUTE)dvips $< -o $@ $(VERYSILENT)
-
-.compilesource: .force
-	$(MUTE)$(MAKE) .valid
-	$(MUTE)[ -z "$(BBL)" ] || $(MAKE) .citations
-	$(MUTE)[ -e .valid ] || (                                    \
-	  ( [ -e .compiled ] || $(MAKE) .compiled ) ;                \
+.make_compilesource: .make_force
+	$(MUTE)$(MAKE) .make_valid
+	$(MUTE)[ -z "$(BBL)" ] || $(MAKE) .make_citations
+	$(MUTE)[ -e .make_valid ] || (                                    \
+	  ( [ -e .make_compiled ] || $(MAKE) .make_compiled ) ;                \
 	  ( [ -e .compiled ] || $(MAKE) .compiled ) ;                \
 	  ( [ -e .compiled ] || $(MAKE) .compiled ) ;                \
 	  ( [ -e .compiled ] || echo "[Error] Could not make it work after 3 runs. Weird." ) \
@@ -237,22 +221,13 @@ $(MAINFILE:.tex=.dvi): .force
 	  grep "Warning" $(MAINFILE:.tex=.blg) ;                     \
 	  grep "Error" $(MAINFILE:.tex=.blg) || true                 \
 	)
-	$(MUTE)[ -z "$(BBL)" -a -e .valid ] || [ -n "$(BBL)" -a -e .compiled ]
+	$(MUTE)[ -z "$(BBL)" -a -e .make_valid ] || [ -n "$(BBL)" -a -e .make_compiled ]
 
 
 clean:
-	$(MUTE)$(RM) *.bbl *.blg *.aux *.log *.toc *.lof *.lot
-	$(MUTE)$(RM) .??*
+	$(MUTE)$(RM) *.bbl *.blg *.aux *.log *.toc *.lof *.lot *.out
+	# $(MUTE)$(RM) $(wildcard *.make_*)
 
-
-view: $(MAINFILE:.tex=.pdf)
-	kpdf $< > /dev/null 2>&1 &
-
-viewdvi: $(MAINFILE:.tex=.dvi)
-	kdvi $(<:.dvi=) > /dev/null 2>&1 &
-
-viewps: $(MAINFILE:.tex=.ps)
-	kghostview $< > /dev/null 2>&1 &
 
 info:
 	@echo Main file:    $(MAINFILE)
@@ -260,28 +235,28 @@ info:
 	@echo Bibliography: $(BIBFILE)
 
 # just do one run...
-.valid: $(TEXFILES:=.tex)
+.make_valid: $(TEXFILES:=.tex)
 	$(MUTE)$(runtex)
 
 # if citations changed since last run of bibtex, run it again.
-.citations: .citediff $(BIBFILE)
-	$(MUTE)[ ! -e .compiled ] || rm .compiled
+.make_citations: .make_citediff $(BIBFILE)
+	$(MUTE)[ ! -e .make_compiled ] || rm .make_compiled
 	$(MUTE)(                         \
 	  echo "[info] Running BibTex" ; \
 	  bibtex $(MAINFILE:.tex=) $(SILENT)         \
 	) && $(make_citations)
 	$(MUTE) $(clear_valid)
 
-.citediff: .force
+.make_citediff: .make_force
 	$(MUTE)$(make_citediff)
 
 # run as long as necessary
-.compiled: $(TEXFILES:=.tex) $(BBL) 
+.make_compiled: $(TEXFILES:=.tex) $(BBL) 
 	$(MUTE)echo "Found undefined Citations, rerunning..."
 	$(MUTE)$(runtex)
-	$(MUTE)$(check_undef_citations) || touch .compiled
+	$(MUTE)$(check_undef_citations) || touch .make_compiled
 
-.force:
+.make_force:
 
 define runwatch
   $(MUTE)CHANGE=true && while true ; \
