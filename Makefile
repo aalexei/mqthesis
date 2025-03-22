@@ -226,7 +226,7 @@ $(MAINFILE:.tex=.pdf): .make_compilesource
 
 clean:
 	$(MUTE)$(RM) *.bbl *.blg *.aux *.log *.toc *.lof *.lot *.out
-	# $(MUTE)$(RM) $(wildcard *.make_*)
+	$(MUTE)$(RM) .make_valid .make_citations .make_citediff .make_undefcit .make_undefref .make_compiled .make_force
 
 
 info:
