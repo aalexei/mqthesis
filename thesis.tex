@@ -12,19 +12,19 @@
 %                 instead of MQ corporate "sand"
 %---------------------------------------------------------- 
 
-% this shows what labels you are using for cross references
+% This shows what labels you are using for cross references
 % \usepackage{showkeys} 
 
 %---------------------------------------------------------- 
 % STRUCTURE
-% this document is a skeleton which pulls in the meat of the thesis
+% This document is a skeleton which pulls in the meat of the thesis
 % from other files. Comment out and add lines as appropriate.
 %---------------------------------------------------------- 
 
-% N.B. for final printing you may want to remove the 'examinerscopy' 
-% option, which will remove 'Examiner's Copy' from title page
+% N.B. for final printing you may want to remove the 'examinerscopy'
+% option, which will remove 'Examiner's Copy' from the title page
 % and change the linespacing to single space for a professional look
-% ... just saying. Check figure placement though!
+% ... just saying. Check figure placement, and tweak as necessary though!
 
 \begin{document}
 
@@ -36,7 +36,8 @@
 
 \title{Insert thesis title here}
 \author{Insert your name here}
-\department{Physics}  % put your department here
+% Put your department or school here, should be the full name
+\department{School of Physical and Mathematical Sciences}
 
 \titlepage
 
@@ -45,13 +46,13 @@
 \input{abstract}
 
 \tableofcontents
-% comment out these as required for your discipline
+% Comment out these as required for your discipline or style
 \listoffigures
 \listoftables
 
 %---------------------------------------------------------- 
 % MAIN
-% include chapters as neededlmodern
+% Include chapters as needed
 %---------------------------------------------------------- 
 \mainmatter
 
@@ -68,7 +69,7 @@
 
 %---------------------------------------------------------- 
 % APPENDICES
-% include chapters as needed (will be numbered differently)
+% Include chapters as needed (will be numbered differently)
 %---------------------------------------------------------- 
 \appendix
 
@@ -76,14 +77,13 @@
 
 
 
-
-%---------------------------------------------------------- 
+%----------------------------------------------------------
 % BACK
-% list of symbols / references / index etc
+% List of symbols / references / index etc
 %---------------------------------------------------------- 
 \backmatter
 
-% your thesis may not need this, so comment out or delete the following line
+% Your thesis may not need this --- comment out or delete the following line
 \input{listofsymbols}
 
 % Bibliography, in BibTeX format (the references.bib file)
