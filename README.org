@@ -22,6 +22,19 @@ to tweak the look.
 mqthesis depends on a number of standard packages, look through ~mqthesis.cls~ to see
 what is used and any notes. Modify as you see fit.
 
+Package includes a ~Makefile~ which will search for the main tex file and included files, identify bib files and track compilation.
+
+Usage:
+|------------+--------------------------------------------------------------|
+| Command    | Description                                                  |
+|------------+--------------------------------------------------------------|
+| make info  | Prints some info about the setup                             |
+| make clean | Removes typical intermediate files                           |
+| make       | Compiles main tex file to pdf                                |
+| make watch | Continuously checks and compiles changes in *.tex, and *.bib |
+|------------+--------------------------------------------------------------|
+
+
 /Good luck. Don't Panic./
 
 Alexei Gilchrist

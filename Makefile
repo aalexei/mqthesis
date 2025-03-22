@@ -87,7 +87,7 @@ MSG_LAB_CHANGED="LaTeX Warning: Label(s) may have changed"
 MSG_REF_UNDEFINED="LaTeX Warning: Reference.*undefined on input line.*"
 MSG_CIT_UNDEFINED="LaTeX Warning: Citation.*undefined on input"
 
-# strip all comments and extract the bibliography
+# Strip all comments and extract the bibliography
 FIND_BIB_FILE=$(shell \
 	sed -e "s/\\\\%//g" $(1) | \
 	sed -e "s/\([^%]*\).*/\1/g" | \
@@ -112,7 +112,7 @@ clear_valid=( [ ! -e .make_valid ] || $(RM) .make_valid )
 check_undef_citations=\
   ( egrep $(MSG_CIT_UNDEFINED) $(MAINFILE:.tex=.log) > /dev/null )
 
-# determine the changeset for citations
+# Determine the changeset for citations
 define check_citationchange
 	(                                                \
 	  [ -e .make_citations ] || touch .make_citations ;        \
@@ -125,7 +125,7 @@ define check_citationchange
 	)
 endef
 
-# exctract the citations from the aux file
+# Exctract the citations from the aux file
 define make_citations
 	(                                                   \
 	  (                                                 \
@@ -141,9 +141,9 @@ define make_citations
 	)
 endef
 
-# comparing the citations in $(MAINFILE:.tex=.aux)
+# Comparing the citations in $(MAINFILE:.tex=.aux)
 # against those in .make_citations.
-# if there are differences, .citediff is changed.
+# If there are differences, .citediff is changed.
 define make_citediff
 	(                                                     \
 	  ( [ -e .make_citations ] || touch .make_citations ;           \
@@ -159,8 +159,8 @@ define make_citediff
 	)
 endef
 
-# compiles the document
-# the file .make_valid is created if the compilation went without
+# Compiles the document
+# The file .make_valid is created if the compilation went without
 # errors
 define runtexonce
   ( 	                                                    \
@@ -177,7 +177,7 @@ define runtexonce
   )
 endef
 
-# compile the document as many times as necessary to
+# Compile the document as many times as necessary to
 # have cross-references right
 define runtex
 (                                                                      \
@@ -234,11 +234,11 @@ info:
 	@echo Input files:  $(TEXFILES:=.tex)
 	@echo Bibliography: $(BIBFILE)
 
-# just do one run...
+# Just do one run...
 .make_valid: $(TEXFILES:=.tex)
 	$(MUTE)$(runtex)
 
-# if citations changed since last run of bibtex, run it again.
+# If citations changed since last run of bibtex, run it again.
 .make_citations: .make_citediff $(BIBFILE)
 	$(MUTE)[ ! -e .make_compiled ] || rm .make_compiled
 	$(MUTE)(                         \
@@ -250,7 +250,7 @@ info:
 .make_citediff: .make_force
 	$(MUTE)$(make_citediff)
 
-# run as long as necessary
+# Run as long as necessary
 .make_compiled: $(TEXFILES:=.tex) $(BBL) 
 	$(MUTE)echo "Found undefined Citations, rerunning..."
 	$(MUTE)$(runtex)
