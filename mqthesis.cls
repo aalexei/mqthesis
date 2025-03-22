@@ -119,28 +119,9 @@
     \vfill
     \newpage}
 
-% This defines the signature for the signature page where the standard
-% declaration is put
-\long\def\signature#1{%
-\begin{center}
-\begin{minipage}{4in}
-\parindent=0pt
-Except where acknowledged in the customary manner, the material
-presented in this thesis is, to the best of my knowledge, original and
-has not been submitted in whole or part for a degree in any university.
-\par
-\vspace{.5in}
-\hbox to 4in{\hfil\shortstack{\vrule width 3in height 0.4pt\\#1}}
-\end{minipage}
-\end{center}}
-
-% This is the actual signature page
-\def\signaturepage{%
-	\vskip.5in
-	\signature{\@author}}
 
 % Now put in the titlepage
-% (bit of a misnomer really, as it is really the first three or four pages.
+% (bit of a misnomer really, as it is really the first few pages.
 \def\titlepage{%
     \pagenumbering{roman}  % make sure that front matter is numbered Roman
     \titlep
@@ -153,9 +134,7 @@ has not been submitted in whole or part for a degree in any university.
         \begin{center}
             Typeset in \LaTeXe{}.
         \end{center}
-        \normalsize
-        \newpage
-        \signaturepage}{}
+        }{}
 }
 
 
@@ -246,9 +225,10 @@ has not been submitted in whole or part for a degree in any university.
 % Load this after amsmath
 \usepackage{newtxmath}
 
+% Add links to pdf but make them subtle
 \usepackage[pdfusetitle]{hyperref}
 \hypersetup{
-    colorlinks=false,  % false: boxed links; true: colored links
+    colorlinks=true,  % false: boxed links; true: colored links
     linkcolor=black,   % color of internal links 
     citecolor=black,   % color of links to bibliography
     filecolor=black,   % color of file links
