@@ -19,7 +19,7 @@
 % Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{mqthesis}[2025/03/22 Macquarie University physics thesis LaTeX class]
+\ProvidesClass{mqthesis}[2025/03/22 Macquarie University thesis LaTeX class]
 
 % MQ2015 Closest match for Georgia with math support:
 \usepackage{newtxtext}
